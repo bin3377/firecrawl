@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: './apps/api'
 
     steps:
       - name: Checkout
@@ -32,7 +29,8 @@ jobs:
       - name: Build and push worker
         uses: docker/build-push-action@v6
         with:
-          file: ./worker.dockerfile
+          context: ./apps/api
+          file: ./apps/api/worker.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: bin3377/firecrawl-worker:latest
@@ -40,7 +38,8 @@ jobs:
       - name: Build and push server
         uses: docker/build-push-action@v6
         with:
-          file: ./server.dockerfile
+          context: ./apps/api
+          file: ./apps/api/server.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: bin3377/firecrawl-server:latest
